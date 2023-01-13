@@ -1,14 +1,19 @@
 package spring_rest_crud.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Employee {
 	@Id
 	int id;
 	String name;
-	String department;
+	@OneToOne (cascade = CascadeType.ALL)
+	@JoinColumn(name="deptId")
+	Department department;
 	public Employee() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -25,10 +30,12 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDepartment() {
+	
+	
+	public Department getDepartment() {
 		return department;
 	}
-	public void setDepartment(String department) {
+	public void setDepartment(Department department) {
 		this.department = department;
 	}
 	@Override

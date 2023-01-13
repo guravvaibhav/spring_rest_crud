@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import spring_rest_crud.globalException.EmployeeNotAvailableException;
 import spring_rest_crud.model.Employee;
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao{
@@ -31,6 +32,8 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		Session session=factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Employee emp=session.get(Employee.class, id);
+		if(null==emp)
+			throw new EmployeeNotAvailableException("employee not available for id "+id);
 		tx.commit();
 		return emp;
 	}
@@ -58,7 +61,6 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public int deleteEmp(int id) {
 		Session session=factory.openSession();
 		Transaction tx = session.beginTransaction();
-		
 		session.delete(session.get(Employee.class, id));
 		tx.commit();
 		return id;

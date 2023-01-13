@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import spring_rest_crud.globalException.InSufficientDetailException;
 import spring_rest_crud.model.Employee;
 import spring_rest_crud.service.EmployeeService;
 
@@ -25,6 +26,9 @@ public class EmployeeController {
 	
 	@PostMapping("/employees")
 	public @ResponseBody Employee createEmp(@RequestBody Employee employee) {
+		if(employee.getId()==0|employee.getName()==null|employee.getDepartment()==null) {
+			throw new InSufficientDetailException("you entered insufficient data to create new employee");
+		}
 		Employee emp= empService.createEmployee(employee);
 		return emp;
 	}
@@ -45,7 +49,7 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/employees")
-	public @ResponseBody   updateEmployee(@RequestBody Employee employee) {
+	public @ResponseBody   Employee updateEmployee(@RequestBody Employee employee) {
 		Employee emp= empService.updateEmployee(employee);
 		return emp;
 	}
