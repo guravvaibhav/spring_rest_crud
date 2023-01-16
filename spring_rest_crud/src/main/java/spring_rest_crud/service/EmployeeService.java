@@ -16,4 +16,6 @@ public interface EmployeeService {
 
 	int deleteEmp(int id);
 
+	List<Employee> getEmployeeFilterByDepartment(String deptName);
+
 }

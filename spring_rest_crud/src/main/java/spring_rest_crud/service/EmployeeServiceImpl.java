@@ -39,5 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		return empDao.deleteEmp(id);
 	}
+	@Override
+	public List<Employee> getEmployeeFilterByDepartment(String deptName) {
+		// TODO Auto-generated method stub
+		return empDao.getEmployeeFilterByDepartment(deptName);
+	}
 
 }

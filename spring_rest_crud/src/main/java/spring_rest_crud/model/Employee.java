@@ -2,6 +2,7 @@ package spring_rest_crud.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -11,7 +12,7 @@ public class Employee {
 	@Id
 	int id;
 	String name;
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne (cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="deptId")
 	Department department;
 	public Employee() {
@@ -42,6 +43,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", department=" + department + "]";
 	}
+	
 	
 	
 

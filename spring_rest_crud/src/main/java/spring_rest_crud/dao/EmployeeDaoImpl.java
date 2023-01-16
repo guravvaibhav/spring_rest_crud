@@ -3,6 +3,8 @@ package spring_rest_crud.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,7 +44,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public List<Employee> getEmployee() {
 		Session session=factory.openSession();
 		Transaction tx = session.beginTransaction();
-		List<Employee> empList=session.createSQLQuery("select * from Employee").list();
+		List<Employee> empList=session.createQuery("from Employee").list();
 		tx.commit();
 		return empList;
 	}
@@ -64,6 +66,21 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		session.delete(session.get(Employee.class, id));
 		tx.commit();
 		return id;
+	}
+
+	@Override
+	public List<Employee> getEmployeeFilterByDepartment(String deptName) {
+		Session session = factory.openSession();
+		Transaction tr = session.beginTransaction();
+		List<Employee> list=null;
+	
+		Query query = session.createQuery("from Employee e where e.department.deptName=:deptName");
+		 list =query.setParameter("deptName", deptName).getResultList();
+		 if(list.isEmpty()|list==null)
+			throw new EmployeeNotAvailableException("employee not available for department : "+deptName);
+		tr.commit();
+		
+		return list;
 	}
 	
 	
